@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Herbert West — Re-Animator | Audiobook & Dossiê</title>
+
+<!-- Tipografia / Ícones -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+<style>
+/* ================= TOKENS ================= */
+:root{
+  --bg:#000;
+  --fg:#e9fdef;
+  --fg-2:#d8f6e7;
+  --fg-muted:#bff0dc;
+  --accent:#00ff80;
+  --line:rgba(0,255,128,.26);
+  --panel: rgba(10,14,12,.55);
+
+  --radius:14px;
+  --shadow-a: 0 10px 28px rgba(0,0,0,.35);
+  --ring: 0 0 0 2px var(--accent);
+
+  --fs-h1: clamp(28px,4.8vw,40px);
+  --fs-h2: clamp(22px,3.8vw,30px);
+  --fs-h3: clamp(18px,3vw,22px);
+  --fs-body: 1.05rem;
+  --lh: 1.85;
+}
+
+/* ================= RESET & BASE ================= */
+*{box-sizing:border-box}
+html,body{height:100%}
+html{
+  -webkit-text-size-adjust:100%;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"kern","liga","clig","calt","lnum","tnum";
+}
+body{
+  margin:0;
+  color:var(--fg);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-weight:400; line-height:var(--lh);
+
+  /* WALLPAPER */
+  background: url('fundo_reanimator.jpg') center / cover fixed var(--bg) !important;
+  position:relative; overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.68), rgba(0,0,0,.68));
+}
+header, main, footer, .hero { position:relative; z-index:1 }
+
+/* Tipografia */
+em{ font-style: normal !important }
+strong{ font-weight:600 }
+.prose p, .prose li{ overflow-wrap:anywhere }
+h1,h2,h3,.section-title{ overflow-wrap:normal; word-break:keep-all }
+
+/* ================= HEADER ================= */
+.header{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(180deg, rgba(0,0,0,.7), rgba(0,0,0,.36));
+  backdrop-filter: blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.header-row{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:12px 16px; max-width:1120px; margin:0 auto;
+}
+.brand{ display:flex; align-items:center; gap:14px }
+.logo-mini{
+  width:44px; height:44px; object-fit:contain; border-radius:6px;
+  filter: drop-shadow(0 0 10px rgba(0,255,128,.28));
+}
+.brand-block{ display:flex; flex-direction:column; gap:2px }
+.brand-block .tag{
+  margin:0; font:600 .8rem/1 Inter, sans-serif;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--fg-muted);
+}
+.brand-block .sub{ margin:0; font:400 .92rem/1.2 Inter, sans-serif; color:#b9ffd6 }
+
+/* ================= HERO ================= */
+.hero{ text-align:center; padding:20px 16px 8px }
+.logo{
+  width:min(92vw,560px); margin:8px auto; display:block;
+  filter: drop-shadow(0 0 12px rgba(0,255,128,.28));
+}
+
+/* ================= LAYOUT CONTENT ================= */
+.wrapper{ width:min(1120px,94vw); margin:10px auto 44px }
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow: var(--shadow-a);
+  padding: clamp(16px,2.8vw,28px);
+}
+.panel h1,.panel h2{
+  margin:0 0 12px;
+  display:flex; align-items:baseline; gap:12px;
+  font-family:"Cinzel Decorative", serif; font-weight:700; letter-spacing:.02em;
+  text-shadow:0 0 6px rgba(0,255,128,.14);
+}
+.panel h1{ font-size:var(--fs-h1) }
+.panel h2{ font-size:var(--fs-h2) }
+.panel h3{ font-family:"Cinzel Decorative", serif; font-weight:700; font-size:var(--fs-h3); margin:16px 0 8px; color:var(--accent) }
+.panel p{ margin:0 0 12px; font-size:var(--fs-body); color:var(--fg-2) }
+.lead{ color:var(--fg-muted) }
+
+/* ================= CARDS (CAPÍTULOS) ================= */
+.grid{
+  display:grid; gap:16px; margin-top:18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+}
+.card{
+  position:relative; border-radius:var(--radius); overflow:hidden;
+  border:1px solid rgba(0,255,128,.32);
+  box-shadow: inset 0 0 10px rgba(0,255,128,.06);
+  cursor:pointer; text-align:left;
+  transition: transform .18s, box-shadow .18s, border-color .18s, filter .18s;
+}
+.card:focus-visible{ outline:var(--ring); outline-offset:2px }
+.card:hover{ transform:translateY(-3px); box-shadow:0 0 22px rgba(0,255,128,.26); border-color:var(--accent) }
+
+.card .thumb{
+  position:relative; width:100%; aspect-ratio: 16/10;
+  background:#0b0b0b center/cover no-repeat;
+}
+.card .thumb::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.65));
+  transition: opacity .2s;
+}
+.card:hover .thumb::after{ opacity:.35 }
+
+.card .content{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:14px 14px 12px;
+  display:grid; gap:4px;
+  pointer-events:none;
+}
+.badge{
+  font:700 .86rem/1 "Cinzel Decorative", serif;
+  letter-spacing:.10em; color:var(--accent); text-transform:uppercase;
+  text-shadow: 0 0 8px rgba(0,255,128,.25);
+}
+.meta .title{
+  font:800 1.08rem/1.25 "Cinzel Decorative", serif; color:#eaffef; letter-spacing:.01em;
+}
+.meta .desc{
+  font:500 .94rem/1.35 Inter, sans-serif; color:#c7f5e2;
+}
+
+/* ================= SEÇÕES ================= */
+.section-title{
+  display:grid; justify-items:center; text-align:center; gap:.6rem;
+  margin:0 auto 1.2rem; max-width: 900px;
+}
+.section-title .kicker{
+  font:700 .95rem/1 "Cinzel Decorative", serif; letter-spacing:.12em;
+  color:var(--accent); text-transform:uppercase;
+}
+.section-title .title-balance{
+  font:700 var(--fs-h1)/1.12 "Cinzel Decorative", serif; letter-spacing:.02em;
+}
+.section-title .line1,.section-title .line2{ display:block }
+
+/* ================= GRIDS ================= */
+.extras-grid{
+  display:grid; gap: clamp(14px, 2vw, 18px);
+  grid-template-columns: repeat(12, 1fr);
+}
+.extra-card{
+  grid-column: span 6;
+  background: rgba(0,0,0,.62);
+  padding:16px 16px 14px;
+  border:1px solid rgba(0,255,128,.2);
+  border-radius:12px;
+  box-shadow:0 0 10px rgba(0,255,128,.08), inset 0 0 6px rgba(0,255,128,.05);
+}
+@media (max-width:860px){ .extra-card{ grid-column:span 12 } }
+
+/* ================= MODAL PLAYER ================= */
+.modal{ position:fixed; inset:0; display:none; place-items:center; z-index:9999;
+  background:rgba(0,0,0,.86); backdrop-filter:blur(3px)}
+.modal.is-open{ display:grid }
+.player{
+  position:relative; width:min(92vw,980px); aspect-ratio:16/9; background:#000;
+  border:2px solid rgba(0,255,128,.5); border-radius:12px; overflow:hidden;
+  box-shadow:0 0 30px rgba(0,255,128,.26);
+}
+.player video{ width:100%; height:100%; display:block; background:#000 }
+/* 👇 adição mínima p/ YouTube sem quebrar nada */
+.player iframe{ width:100%; height:100%; display:block; background:#000; border:0 }
+
+.close{
+  position:absolute; top:10px; right:10px; z-index:3;
+  border:1px solid rgba(0,255,128,.55);
+  background:rgba(0,0,0,.75); color:var(--accent);
+  width:40px; height:40px; border-radius:10px; cursor:pointer;
+  display:grid; place-items:center; font-size:18px;
+}
+.close:hover{ background:var(--accent); color:#000; transform:scale(1.04) }
+
+/* ================= FEEDBACK ================= */
+.form{
+  display:grid; gap:12px; max-width:760px; margin:10px auto 0;
+}
+.input, .textarea{
+  width:100%; border:1px solid rgba(255,255,255,.16);
+  background:rgba(0,0,0,.35); color:#eaffef;
+  padding:12px 14px; border-radius:10px;
+}
+.textarea{ min-height:120px; resize:vertical }
+.btn{
+  justify-self:start;
+  border:1px solid var(--accent); background:#000; color:var(--accent);
+  padding:10px 16px; border-radius:10px; cursor:pointer;
+}
+.btn:hover{ background:var(--accent); color:#000 }
+.note{ font-size:.92rem; color:#cfeede }
+
+.feedback-list{
+  list-style:none; padding:0; margin:14px auto 0; max-width:760px; display:grid; gap:10px;
+}
+.feedback-item{
+  background: rgba(0,0,0,.45);
+  border:1px solid rgba(0,255,128,.2);
+  border-radius:12px;
+  padding:12px 14px;
+}
+.feedback-item .who{
+  font:600 .95rem/1 Inter, sans-serif; color:#c9ffe6; margin:0 0 6px;
+  display:flex; align-items:center; gap:8px
+}
+.feedback-item .when{
+  margin-left:auto; font:400 .85rem/1 Inter, sans-serif; color:#99eec9; opacity:.9
+}
+.feedback-item p{ margin:0; color:#e9fff3 }
+
+/* ======== FOTO DO LOVECRAFT ======== */
+.author-box{
+  display:grid; grid-template-columns: 140px 1fr; gap:14px;
+  align-items:start; margin:8px 0 12px;
+}
+.author-box img{
+  width:140px; height:auto; border-radius:8px;
+  border:1px solid rgba(0,255,128,.25);
+  filter: sepia(35%) contrast(115%) brightness(88%);
+  box-shadow:0 0 14px rgba(0,255,128,.25);
+}
+.author-box .author-caption{
+  font:500 .95rem/1.4 Inter, sans-serif; color:var(--fg-muted);
+}
+@media (max-width:560px){
+  .author-box{ grid-template-columns: 1fr; }
+  .author-box img{ width:100%; max-width:280px; justify-self:start }
+}
+
+/* ================= FOOTER ================= */
+footer{
+  text-align:center; padding:20px 12px; color:#a3ffbf;
+  border-top:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.42));
+  font:400 .92rem/1.4 Inter, sans-serif;
+}
+
+/* A11Y / RESPONSIVO / MOTION */
+:focus-visible{ outline: var(--ring); outline-offset:2px }
+@media (max-width:768px){
+  .meta .title{ font-size:1rem }
+  .meta .desc{ font-size:.92rem }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important }
+}
+</style>
+</head>
+
+<body>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-row">
+    <div class="brand">
+      <img class="logo-mini" src="re-animator.png" alt="Re-Animator">
+      <div class="brand-block">
+        <p class="tag">H.P. Lovecraft's classic tale of horror</p>
+        <p class="sub">Existem coisas piores que a morte.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- LOGO CENTRAL -->
+<section class="hero" aria-hidden="true">
+  <img class="logo" src="re-animator.png" alt="">
+</section>
+
+<main class="wrapper">
+  <!-- ======= BIOGRAFIA EXPANDIDA (com foto) ======= -->
+  <section class="panel prose" id="lovecraft">
+    <h2><i class="fa-solid fa-book-dead"></i> H. P. Lovecraft — Vida, Obra e Horror Cósmico</h2>
+
+    <div class="author-box">
+      <img src="H._P._Lovecraft,_June_1934.jpg" alt="H. P. Lovecraft (junho de 1934)">
+      <p class="author-caption">
+        Retrato de <strong>H. P. Lovecraft</strong> (1934). Autodidata de Providence cuja imaginação cósmica redefiniu o terror moderno
+        e inspira este projeto.
+      </p>
+    </div>
+
+    <p><strong>Howard Phillips Lovecraft (1890–1937)</strong> nasceu e morreu em Providence, Rhode Island (EUA). Filho único, cresceu sob forte influência
+      dos avós maternos após a doença e morte do pai. A biblioteca da casa e o interesse por <em>astronomia</em>, história antiga e poesia forjaram uma
+      voz literária erudita, racional e gelada, que rejeita consolo fácil: o universo é vasto e indiferente.</p>
+
+    <h3>Formação e imprensa amadora</h3>
+    <p>Na adolescência, entra na <em>United Amateur Press Association</em>, publica artigos, contos e começa uma correspondência gigantesca com autores e editores.
+      Esse circuito leva às revistas <em>pulp</em>, sobretudo a <strong>Weird Tales</strong>, onde aparece parte de sua obra ao longo dos anos 1920 — entre
+      recusas, revisões e pagamentos magros, cenário típico do período.</p>
+
+    <h3>Nova York, casamento e retorno a Providence</h3>
+    <p>Em 1924 casa-se com <strong>Sonia Greene</strong> e muda-se para Nova York. A cidade lhe pesa: problemas financeiros, saúde frágil e
+      desajuste social. O casamento desfaz-se e, em 1926, ele retorna a Providence. Lá escreve seu ciclo mais famoso:
+      <strong>“The Call of Cthulhu”</strong> (1926/1928), <strong>“At the Mountains of Madness”</strong> (1931),
+      <strong>“The Shadow over Innsmouth”</strong> (1931) e <strong>“The Shadow Out of Time”</strong> (1934–35).</p>
+
+    <h3>Herbert West — Re-Animator</h3>
+    <p>Entre 1921 e 1922, serializa <strong>“Herbert West—Reanimator”</strong> na revista <em>Home Brew</em>. Aqui, a morte vira problema técnico:
+      um <em>soro</em> verde reanima cadáveres que retornam violentos e incontroláveis. É a primeira menção à
+      <strong>Universidade Miskatonic</strong> e base direta do filme de 1985 e continuações.</p>
+
+    <h3>Filosofia e temas</h3>
+    <p>Seu núcleo é o <strong>cosmicismo</strong>: a humanidade é insignificante diante de um cosmos indiferente.
+      O horror nasce quando a curiosidade humana toca forças incompreensíveis — ciência, arqueologia, sonhos e decadência
+      da Nova Inglaterra se cruzam para corroer o <em>antropocentrismo</em>. Protagonistas pagam o preço de ver demais.</p>
+
+    <h3>Contradições</h3>
+    <p>Politicamente, começa tradicionalista e elitista; na década de 1930 flerta com posições mais socializantes, sem abandonar algumas convicções.
+      Mantém <strong>posições racistas</strong> em boa parte da vida — tema debatido hoje por leitores e pesquisadores, lado a lado com o impacto literário
+      e a imaginação única da sua obra.</p>
+
+    <h3>Correspondência e legado</h3>
+    <p>Lovecraft publicou pouco em vida e nunca viveu confortavelmente de sua escrita. Após 1937, amigos como <strong>August Derleth</strong> e
+      <strong>Donald Wandrei</strong> organizam seus textos e fundam a <strong>Arkham House</strong>, catalisando o renascimento crítico nos anos 1960–70.
+      Sua correspondência é colossal (dezenas de milhares de cartas) e registra método, opinião, sonhos e conselhos literários — razão de sua influência
+      sobre autores como <strong>Stephen King</strong>, <strong>Clive Barker</strong> e cineastas como <strong>John Carpenter</strong> e <strong>Guillermo del Toro</strong>.
+      Hoje, seu mito permeia literatura, cinema, HQs, jogos e música.</p>
+
+    <h3>Morte</h3>
+    <p>Morreu aos <strong>46 anos</strong>, de câncer intestinal, em Providence. O mito cresceu depois — ironicamente, como se suas criaturas tivessem
+      saído das páginas para colonizar a cultura pop.</p>
+  </section>
+
+  <!-- ======= PAINEL ÁUDIO (CAPÍTULOS) ======= -->
+  <section class="panel prose" id="painel-audio">
+    <h1><i class="fas fa-syringe"></i> Herbert West: Re-Animator</h1>
+    <p>O estudante genial que transforma a morte em problema técnico. Fórmula verde, bisturi, silêncio de necrotério — e algo volta… diferente.</p>
+    <p><strong>Narração:</strong> Marcelo Fávaro.</p>
+
+    <div class="grid" role="list" aria-label="Capítulos do Audiobook">
+      <!-- >>> TROCA SOMENTE AQUI: data-video agora usa YouTube <<< -->
+      <button class="card" role="listitem" data-video="https://www.youtube.com/embed/nP9TQWQY8BE" aria-label="Capítulo 1 — Da Escuridão">
+        <div class="thumb" style="background-image:url('cap1.png')"></div>
+        <div class="content">
+          <div class="badge">Capítulo 1</div>
+          <div class="meta">
+            <div class="title">Da Escuridão</div>
+            <div class="desc">A ciência cruza a primeira linha.</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" role="listitem" data-video="https://www.youtube.com/embed/Cq6ytOrmxsM" aria-label="Capítulo 2 — O Demônio da Praga">
+        <div class="thumb" style="background-image:url('cap2.jpg')"></div>
+        <div class="content">
+          <div class="badge">Capítulo 2</div>
+          <div class="meta">
+            <div class="title">O Demônio da Praga</div>
+            <div class="desc">A epidemia vira laboratório vivo.</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" role="listitem" data-video="https://www.youtube.com/embed/w_0hcV8Xn_c" aria-label="Capítulo 3 — Seis Tiros ao Luar">
+        <div class="thumb" style="background-image:url('cap3.jpg.webp')"></div>
+        <div class="content">
+          <div class="badge">Capítulo 3</div>
+          <div class="meta">
+            <div class="title">Seis Tiros ao Luar</div>
+            <div class="desc">O silêncio responde com violência.</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" role="listitem" data-video="https://www.youtube.com/embed/rgepYgJTcyA" aria-label="Capítulo 4 — O Grito do Morto">
+        <div class="thumb" style="background-image:url('cap4.webp')"></div>
+        <div class="content">
+          <div class="badge">Capítulo 4</div>
+          <div class="meta">
+            <div class="title">O Grito do Morto</div>
+            <div class="desc">Um som que não deveria existir.</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" role="listitem" data-video="https://www.youtube.com/embed/x_u1GN9Qy4s" aria-label="Capítulo 5 — O Horror das Sombras">
+        <div class="thumb" style="background-image:url('cap5.webp')"></div>
+        <div class="content">
+          <div class="badge">Capítulo 5</div>
+          <div class="meta">
+            <div class="title">O Horror das Sombras</div>
+            <div class="desc">Experimentos cobram a conta.</div>
+          </div>
+        </div>
+      </button>
+
+      <button class="card" role="listitem" data-video="https://www.youtube.com/embed/Efoav4ny04o" aria-label="Capítulo 6 — As Legiões das Tumbas">
+        <div class="thumb" style="background-image:url('cap6.jpg')"></div>
+        <div class="content">
+          <div class="badge">Capítulo 6</div>
+          <div class="meta">
+            <div class="title">As Legiões das Tumbas</div>
+            <div class="desc">Quando o cemitério respira.</div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ======= CINEMA ======= -->
+  <section class="panel" id="cinema">
+    <h2 class="section-title">
+      <span class="kicker">Cinema</span>
+      <span class="title-balance">
+        <span class="line1">De Frankenstein (1931)</span>
+        <span class="line2">a Re-Animator (1985)</span>
+      </span>
+    </h2>
+
+    <div class="extras-grid prose">
+      <article class="extra-card">
+        <h3>Frankenstein (1931) — James Whale</h3>
+        <p>Universal Pictures, estética gótica e laboratório icônico. <strong>Boris Karloff</strong> redefine o “reanimado” — maquiagem, peso, compaixão trágica.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Bride of Frankenstein (1935)</h3>
+        <p>Whale eleva tudo: ironia, lirismo e horror. <strong>Elsa Lanchester</strong> cria a Noiva — instantaneamente mítica. Trilha de <strong>Franz Waxman</strong>.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Re-Animator (1985) — Stuart Gordon</h3>
+        <p>Humor negro + efeitos práticos + método clínico. <strong>Jeffrey Combs</strong> cristaliza Herbert West; soro verde vira assinatura visual.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Bride of Re-Animator (1990)</h3>
+        <p>Direção de Yuzna: laboratório kitsch, colagens anatômicas e “brincar de Prometeu” no talo. West e Dan Cain empurram os limites do corpo.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Beyond Re-Animator (2003)</h3>
+        <p>Terceiro filme oficial em ambiente carcerário. Um quarto (“House of Re-Animator”) foi aventado e não saiu.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Outras obras, jogos e música</h3>
+        <p>Do horror corporal de <strong>The Fly</strong> ao luto de <strong>Pet Sematary</strong>, passando por <strong>Resident Evil</strong>, <strong>BioShock</strong> e <strong>Darkest Dungeon</strong>.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======= RELATOS REAIS ======= -->
+  <section class="panel" id="relatos">
+    <h2 class="section-title">
+      <span class="kicker">Relatos Reais</span>
+      <span class="title-balance">
+        <span class="line1">Galvanismo</span>
+        <span class="line2">e Biomedicina</span>
+      </span>
+    </h2>
+
+    <div class="extras-grid prose">
+      <article class="extra-card">
+        <h3>Luigi Galvani (1737–1798)</h3>
+        <p>Experimentos com rãs e faíscas: contrações que revelam “eletricidade animal”. A ponte entre eletricidade e fisiologia ganha mito e método.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Giovanni Aldini & George Forster (1803)</h3>
+        <p>Demonstração pública em Londres: correntes em um corpo recém-executado provocam reações faciais e musculares. Ciência, espetáculo e assombro.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Sergei Brukhonenko (Autojektor)</h3>
+        <p>Máquina coração-pulmão primitiva mantém circulação extracorpórea. Registros célebres e polêmicos empurram a tecnologia de suporte à vida.</p>
+      </article>
+
+      <article class="extra-card">
+        <h3>Vladimir Demikhov</h3>
+        <p>Transplantes extremos em cães — eticamente chocantes, mas precursores de técnicas de enxerto e perfusão.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======= LABORATÓRIO ======= -->
+  <section class="panel" id="lab-west">
+    <h2><i class="fa-solid fa-flask"></i> Laboratório de West — Ciência, Profanação e Carne</h2>
+    <div class="extras-grid prose">
+      <article class="extra-card">
+        <h3>Método</h3>
+        <p>Coleta, catalogação, dose e pH. West trabalha como um químico rigoroso — até que o resultado sai do controle da bancada.</p>
+      </article>
+      <article class="extra-card">
+        <h3>Estética</h3>
+        <p>Aço, azulejo, seringa, brilho verde. Uma liturgia clínica que transforma técnica em rito.</p>
+      </article>
+      <article class="extra-card">
+        <h3>Ética</h3>
+        <p>Consentimento, dignidade do cadáver e responsabilidade pelos retornos. O soro responde o “como”; a pergunta é “por quê”.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======= FEEDBACK ======= -->
+  <section class="panel prose" id="feedback">
+    <h2><i class="fa-regular fa-comment-dots"></i> O que você achou?</h2>
+    <p class="lead">Deixe sua opinião. (Armazenamos localmente no seu navegador; nenhum dado é enviado.)</p>
+    <form class="form" id="feedbackForm">
+      <input class="input" id="fbName" type="text" placeholder="Seu nome (opcional)"/>
+      <textarea class="textarea" id="fbMsg" placeholder="Escreva seu feedback..."></textarea>
+      <button class="btn" type="submit"><i class="fa-regular fa-paper-plane"></i> Enviar</button>
+      <p class="note" id="fbNote" aria-live="polite"></p>
+    </form>
+
+    <ul class="feedback-list" id="fbList" aria-live="polite" aria-relevant="additions text"></ul>
+  </section>
+</main>
+
+<footer>
+  © 2025 Rafael Rodrigues — Fan site inspirado por H. P. Lovecraft. | Texto de Lovecraft em domínio público.
+</footer>
+
+<!-- ======= MODAL PLAYER ======= -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="player">
+    <button class="close" id="closeBtn" title="Fechar"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Mantemos o VIDEO original; se vier YouTube, trocamos dinamicamente por IFRAME -->
+    <video id="video" controls autoplay playsinline></video>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $  = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+
+  const modal   = $('#modal');
+  let   videoEl = $('#video');    // pode ser trocado por iframe dinamicamente
+  const closeBtn= $('#closeBtn');
+  let lastFocus = null;
+
+  // cria iframe YouTube só quando necessário
+  function ensureIframe(){
+    let iframe = document.getElementById('yt-embed');
+    if(!iframe){
+      iframe = document.createElement('iframe');
+      iframe.id = 'yt-embed';
+      iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen','');
+      iframe.style.width = '100%';
+      iframe.style.height= '100%';
+      // esvazia o <video> e troca no DOM, mas SEM mudar estilos do container
+      if(videoEl && videoEl.parentNode){
+        videoEl.parentNode.replaceChild(iframe, videoEl);
+      }
+    }
+    return iframe;
+  }
+
+  function openModalWith(src){
+    if(!src) return;
+    lastFocus = document.activeElement;
+    modal.classList.add('is-open');
+
+    if(src.includes('youtube.com/')){
+      // usar iframe + autoplay + branding off
+      const u = new URL(src);
+      u.searchParams.set('autoplay','1');
+      u.searchParams.set('rel','0');
+      u.searchParams.set('modestbranding','1');
+      u.searchParams.set('v', Date.now().toString()); // cache-buster
+      const iframe = ensureIframe();
+      iframe.src = u.toString();
+    } else {
+      // manter comportamento antigo com <video> local
+      // (caso um dia volte a usar .mp4)
+      if(!document.getElementById('video')){
+        // se já trocou por iframe, recria o <video> pra compat
+        const v = document.createElement('video');
+        v.id = 'video';
+        v.setAttribute('controls','');
+        v.setAttribute('autoplay','');
+        v.setAttribute('playsinline','');
+        const player = document.querySelector('.player');
+        const maybeIframe = document.getElementById('yt-embed');
+        if(maybeIframe) player.replaceChild(v, maybeIframe);
+        videoEl = v;
+      }
+      videoEl.src = src;
+      videoEl.currentTime = 0;
+      videoEl.play().catch(()=>{});
+    }
+  }
+
+  function closeModal(){
+    modal.classList.remove('is-open');
+    const iframe = document.getElementById('yt-embed');
+    if(iframe){ iframe.src = ''; }
+    if(videoEl){ try{ videoEl.pause(); videoEl.removeAttribute('src'); videoEl.load(); }catch{} }
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if(e.target===modal) closeModal() });
+  window.addEventListener('keydown', e => { if(e.key==='Escape') closeModal() });
+
+  // Binds dos cards (sem mudar HTML)
+  $$('#painel-audio .card').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const src = btn.getAttribute('data-video') || '';
+      openModalWith(src);
+    });
+  });
+
+  /* ===== Feedback local ===== */
+  const form  = $('#feedbackForm');
+  const nameEl= $('#fbName');
+  const msgEl = $('#fbMsg');
+  const note  = $('#fbNote');
+  const listEl= $('#fbList');
+
+  function loadFeedback(){
+    try{
+      const data = JSON.parse(localStorage.getItem('reanimator_feedback') || '[]');
+      return Array.isArray(data) ? data : [];
+    }catch{ return [] }
+  }
+  function saveFeedback(arr){
+    try{ localStorage.setItem('reanimator_feedback', JSON.stringify(arr)); }catch{}
+  }
+  function fmtDate(iso){
+    try{
+      const d = new Date(iso);
+      return d.toLocaleString('pt-BR', {dateStyle:'short', timeStyle:'short'});
+    }catch{ return '' }
+  }
+  function renderFeedback(){
+    const data = loadFeedback();
+    listEl.innerHTML = '';
+    if(!data.length){
+      listEl.innerHTML = '<li class="feedback-item"><p>Nenhum comentário ainda. Seja o primeiro.</p></li>';
+      return;
+    }
+    data.forEach((it)=>{
+      const li = document.createElement('li');
+      li.className = 'feedback-item';
+      li.innerHTML = `
+        <div class="who">
+          <span><i class="fa-regular fa-user"></i> ${it.name ? it.name.replace(/[<>]/g,'') : 'Anônimo'}</span>
+          <span class="when">${fmtDate(it.at)}</span>
+        </div>
+        <p>${(it.msg || '').replace(/[<>]/g,'')}</p>
+      `;
+      listEl.appendChild(li);
+    });
+  }
+  renderFeedback();
+
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    const name = nameEl.value.trim();
+    const msg  = msgEl.value.trim();
+    if(!msg){ note.textContent = 'Digite uma mensagem.'; return; }
+    const data = loadFeedback();
+    data.push({name, msg, at: new Date().toISOString()});
+    saveFeedback(data);
+    nameEl.value = ''; msgEl.value = '';
+    note.textContent = 'Valeu! Seu feedback foi publicado aqui embaixo.';
+    renderFeedback();
+    setTimeout(()=> note.textContent = '', 4000);
+  });
+})();
+</script>
+</body>
+</html>
